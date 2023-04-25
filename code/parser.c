@@ -4,7 +4,8 @@
 #include "parser.h"
 #include "fifoServ.h"
 #include "crc16.h"
-
+#include <string.h>
+#include <sys/socket.h>
 /******************************************************************************
 *   Local Macro Definitions
 *******************************************************************************/
@@ -15,7 +16,7 @@
 /******************************************************************************
 *   Local Type Definitions
 ******************************************************************************/
-#pragma pack(1)
+#pragma pack(push,1)
 typedef struct
 {
     uint8_t dp_id;
@@ -79,9 +80,9 @@ int parseData(int *cfd)
     }
     else
     {
-        for (int i = 0; i < (strlen(readbuf) / 2); i++)
+        for (int i = 0; i < (strlen( (const char*)readbuf) / 2); i++)
         {
-            sscanf(readbuf + 2*i, "%02X", &output[i]);
+            sscanf( (const char*)readbuf + 2*i, "%02X", &output[i]);
         }
 
         msg.id              = output[0];

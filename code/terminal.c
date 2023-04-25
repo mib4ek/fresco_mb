@@ -4,7 +4,7 @@
 #include "terminal.h"
 #include "fifoServ.h"
 #include "fifoClient.h"
-
+#include "string.h"
 /******************************************************************************
 *   Local Macro Definitions
 *******************************************************************************/

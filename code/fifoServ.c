@@ -9,6 +9,8 @@
 #include <stdint.h>
 #include <signal.h>
 #include <stdbool.h>
+#include "parser.h"
+#include <unistd.h>
 /******************************************************************************
 *   Local Macro Definitions
 *******************************************************************************/
@@ -96,6 +98,7 @@ int bindMode(char *mcuName)
             }
         }
     }
+    return 0;
 }
 
 void sig_handler(int sig) {
