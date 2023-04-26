@@ -82,7 +82,7 @@ int parseData(int *cfd)
     {
         for (int i = 0; i < (strlen( (const char*)readbuf) / 2); i++)
         {
-            sscanf( (const char*)readbuf + 2*i, "%02X", &output[i]);
+            sscanf( (const char*)readbuf + 2*i, "%02X", (int*) &output[i]);
         }
 
         msg.id              = output[0];

@@ -33,3 +33,10 @@ clean:
 	@echo "Cleaning up..."
 	rm -rvf code/*.o $(TARGET) $(FOLDER_NAME)
 
+test:
+	rm -rf build_host_ut
+	mkdir build_host_ut
+	cmake . -Bbuild_host_ut
+	cd build_host_ut && make
+	./coverage.sh
+
