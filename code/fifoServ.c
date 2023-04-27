@@ -61,7 +61,7 @@ int bindMode(char *mcuName)
         memset(&my_addr, 0x00, sizeof(struct sockaddr_un));
 
         my_addr.sun_family = AF_UNIX;
-        strncpy(my_addr.sun_path, mcuName, sizeof(my_addr.sun_path) - 1);
+        (void*) strncpy(my_addr.sun_path, mcuName, sizeof(my_addr.sun_path) - 1);
 
         if ( RETURN_ERROR == bind(sfd, (struct sockaddr *) &my_addr, sizeof(struct sockaddr_un)) )
         {

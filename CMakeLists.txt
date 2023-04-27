@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 # Project name
 project(UT_Fresco_TestApp)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(WORKSPACE_PATH "${CMAKE_CURRENT_LIST_DIR}/")
 set(CL_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/build_host_ut)
 
