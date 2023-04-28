@@ -24,7 +24,10 @@
 /*****************************************************************************
  *  Function Definitions
  *****************************************************************************/
-
+#ifdef UNITTEST
+#define scanf   scanfUT
+int scanfUT(const char *format, char* buf);
+#endif
 /***********************************************************/
 /*! \fn int sendMode
  *  \brief connect to socket and send data
@@ -50,7 +53,7 @@ int sendMode(char *mcuName)
         if (0 != strncmp (readbuf,"q",strlen(readbuf) ) )
         {
 
-            printf("STR: %s",readbuf);
+            printf("STR: %s \n",readbuf);
 
             sfd = socket(AF_UNIX, SOCK_STREAM, 0);
 

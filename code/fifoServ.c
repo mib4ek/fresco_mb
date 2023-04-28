@@ -71,7 +71,9 @@ int bindMode(char *mcuName)
         {
             signal(SIGSEGV, sig_handler);
             signal(SIGTERM, sig_handler);
+#ifndef UNITTEST
             while(1)
+#endif
             {
                 if ( RETURN_ERROR == listen(sfd, LISTEN_BACKLOG) )
                 {
@@ -91,7 +93,9 @@ int bindMode(char *mcuName)
                         /* Code to deal with incoming connection(s)... */
                         if ( RETURN_ERROR == parseData(&cfd) )
                         {
+#ifndef UNITTEST
                             break;
+#endif
                         }
                     }
                 }
@@ -106,11 +110,15 @@ void sig_handler(int sig) {
     case SIGSEGV:
     case SIGTERM:
         unlink(fifoName);
+#ifndef UNITTEST
         exit(1);
+#endif
         break;
     default:
         perror("wasn't expecting that!\n");
-        abort();
+#ifndef UNITTEST
+        exit(1);
+#endif
     }
 
 }
