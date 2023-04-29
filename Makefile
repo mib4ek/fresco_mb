@@ -3,6 +3,8 @@
 CC = gcc			# compiler to use
 
 CFLAGS = -g -Wall -fshort-enums -Os
+
+UNIT_TEST_LIB = build_host_ut
 LINKERFLAG = -lm
 
 SUBDIRECTORY_LIST = $(wildcard */)
@@ -31,12 +33,12 @@ $(TARGET): $(OBJECTS)
 	$(LD) -r $^ -o $@
 clean:
 	@echo "Cleaning up..."
-	rm -rvf code/*.o $(TARGET) $(FOLDER_NAME)
+	rm -rvf code/*.o *.gcov $(TARGET) $(FOLDER_NAME)
 
 test:
-	rm -rf build_host_ut
-	mkdir build_host_ut
-	cmake . -Bbuild_host_ut
-	cd build_host_ut && make
+	rm -rf $(UNIT_TEST_LIB)
+	mkdir $(UNIT_TEST_LIB)
+	cmake . -B$(UNIT_TEST_LIB)
+	cd $(UNIT_TEST_LIB) && make
 	./coverage.sh
-
+	x-www-browser ./$(UNIT_TEST_LIB)/CoverageReport/index.html

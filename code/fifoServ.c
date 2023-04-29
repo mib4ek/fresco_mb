@@ -81,7 +81,6 @@ int bindMode(char *mcuName)
                 }
                 else
                 {
-
                     peer_addr_size = sizeof(struct sockaddr_un);
                     cfd = accept(sfd, (struct sockaddr *) &peer_addr, &peer_addr_size);
                     if ( RETURN_ERROR == cfd )
