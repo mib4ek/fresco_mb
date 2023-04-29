@@ -58,23 +58,26 @@ int bindMode(char *mcuName)
     }
     else
     {
+        /*      Clean structures     */
         memset(&my_addr, 0x00, sizeof(struct sockaddr_un));
 
         my_addr.sun_family = AF_UNIX;
         (void*) strncpy(my_addr.sun_path, mcuName, sizeof(my_addr.sun_path) - 1);
-
+        /*  bind to FIFO file   */
         if ( RETURN_ERROR == bind(sfd, (struct sockaddr *) &my_addr, sizeof(struct sockaddr_un)) )
         {
             perror("bind");
         }
         else
         {
+            /*  Handling kill signals  */
             signal(SIGSEGV, sig_handler);
             signal(SIGTERM, sig_handler);
 #ifndef UNITTEST
             while(1)
 #endif
             {
+                /* Accept incoming connection requests */
                 if ( RETURN_ERROR == listen(sfd, LISTEN_BACKLOG) )
                 {
                     perror("listen");
@@ -82,6 +85,7 @@ int bindMode(char *mcuName)
                 else
                 {
                     peer_addr_size = sizeof(struct sockaddr_un);
+                    /*  return a file descriptor for the accepted socket    */
                     cfd = accept(sfd, (struct sockaddr *) &peer_addr, &peer_addr_size);
                     if ( RETURN_ERROR == cfd )
                     {
@@ -104,6 +108,12 @@ int bindMode(char *mcuName)
     return 0;
 }
 
+/***********************************************************/
+/*! \fn void sig_handler
+ *  \brief handling kill signals
+ *  \param int - kill signal
+ *  \return void
+ ***********************************************************/
 void sig_handler(int sig) {
     switch (sig) {
     case SIGSEGV:

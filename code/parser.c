@@ -9,8 +9,11 @@
 /******************************************************************************
 *   Local Macro Definitions
 *******************************************************************************/
+/*  Max defined size of income str  */
 #define MAX_BUFFER_SIZE 80
+/* Max payload size */
 #define MAX_PAYLOAD_SIZE  ( MAX_BUFFER_SIZE - 7) /* Full size minus headers and crc */
+/*      Little endian switching     */
 #define LE(left,right)   ( (uint16_t)left<<8)|right;
 
 /******************************************************************************
@@ -67,13 +70,15 @@ int parseData(int *cfd)
     uint8_t     readbuf[MAX_BUFFER_SIZE];
     uint8_t     output[MAX_BUFFER_SIZE];
     uint8_t     crcPos                      = 0;
+    uint16_t    crc16V                      = 0;
     uint8_t     dpIdPos                     = sizeof(msg.id) + sizeof(msg.payloadSize);
     uint8_t     payloadPos                  = dpIdPos + sizeof(msg.payload.dp_id) + sizeof(msg.payload.dp_type);
-    uint16_t    crc16V                      = 0;
 
+    /*      Clean structures     */
     memset(msg.payload.value,0x00,sizeof(msg.payload.value) );
     memset(readbuf,0x00,sizeof(readbuf) );
 
+    /*  Check received string   */
     if( recv(*cfd, readbuf , MAX_BUFFER_SIZE , 0) <= 0)
     {
         return -1;
@@ -82,6 +87,7 @@ int parseData(int *cfd)
     {
         for (int i = 0; i < (strlen( (const char*)readbuf) / 2); i++)
         {
+            /*  Interpretation string as a byte array   */
             sscanf( (const char*)readbuf + 2*i, "%02X", (int*) &output[i]);
         }
 
