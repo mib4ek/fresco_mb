@@ -8,6 +8,8 @@ Commands for use:
 How to use application:
 ./fresco_mb bind ~/path/to/FIFO &
 ./fresco_mb send ~/path/to/FIFO - and on next step input string or put "q" for exit
+pkill fresco_mb - will send terminated signal to the application and unlink FIFO file.
+
 Output will be show in termenial.
 
 P.S:
